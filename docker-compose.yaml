@@ -11,3 +11,18 @@ services:
       - 5432:5432
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=The-other-secure-password
+    ports:
+      - 5050:80
+  
+  nodeserver:
+    image: node:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app

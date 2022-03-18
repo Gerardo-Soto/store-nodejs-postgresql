@@ -105,3 +105,6 @@ dist
 
 # postgresql
 postgres_data/
+
+#ENV
+config/
