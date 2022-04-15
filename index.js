@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
 
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/errorHandler');
+const { logErrors, errorHandler, boomErrorHandler, handleORMErrorPKUnique } = require('./middlewares/errorHandler');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -31,9 +31,12 @@ app.get('/nueva-ruta', (req, res) => {
 
 routerApi(app);
 
+// Middleware
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
+// challenge: add validate PK unique to ORM:
+app.use(handleORMErrorPKUnique);
 
 
 app.listen(port, () => {

@@ -10,6 +10,7 @@ const router = express.Router();
 
 const service = new UserService();
 
+// Find all users registered:
 router.get('/', async (req, res, next) => {
   try {
     const users = await service.findAll();
@@ -19,7 +20,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// test query to postgres
+// test query to postgres: Find all tasks
 router.get('/tasks', async (req, res, next) => {
     try {
         const task = await service.findTasks();
@@ -29,11 +30,14 @@ router.get('/tasks', async (req, res, next) => {
     }
 });
 
+// Find a user by ID
 router.get('/:id',
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
+      // Get the ID from the URL:
       const { id } = req.params;
+      // Get the user with our service findOne
       const category = await service.findOne(id);
       res.json(category);
     } catch (error) {
@@ -42,8 +46,10 @@ router.get('/:id',
   }
 );
 
+// Create a new user
 router.post('/',
   validatorHandler(createUserSchema, 'body'),
+  //validatorHandler(isUnique, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -55,6 +61,7 @@ router.post('/',
   }
 );
 
+// Update a user by ID
 router.patch('/:id',
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
@@ -70,12 +77,13 @@ router.patch('/:id',
   }
 );
 
+// Delete a user by ID
 router.delete('/:id',
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      await service.delete(id);
+      await service.deleteOne(id);
       res.status(201).json({id});
     } catch (error) {
       next(error);

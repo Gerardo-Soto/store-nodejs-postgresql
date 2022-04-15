@@ -1,17 +1,20 @@
 // load environment vars
 const { config } = require('../config/config');
 
-//load sequelize lib
+// load sequelize lib
 const { Sequelize } = require('sequelize');
+
+// Our models function to connect with the ORM
+const setupModels = require('../database/index');
 
 // encode sensitive data
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 
-//URI
+// URI
 const URI = `${config.dbProtocol}://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 
-console.log(URI);
+//console.log(URI);
 
 // connection (option 1): passing a connext URI for postgres
 const sequelize = new Sequelize(
@@ -22,5 +25,30 @@ const sequelize = new Sequelize(
     }
 );
 
+// setup connection with our ORM 
+setupModels(sequelize);
+
+// execute Models on Database
+sequelize.sync();
+
 // export our connection:
 module.exports = sequelize;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

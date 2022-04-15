@@ -6,7 +6,12 @@ const boom = require('@hapi/boom');
 //const pool = require('../libs/postgresPool');
 
 // our new connection using the library Sequelize that use Pool
-const sequelize = require('../libs/sequelize');
+//const sequelize = require('../libs/sequelize');
+
+// our new connection using ORM
+// sequelize.setupModels.init makes a namespace where saved all models, called:
+// database/user.models.js > config > modelName: 'User' == models.User
+const { models } = require('../libs/sequelize');
 
 
 class UserService {
@@ -16,61 +21,66 @@ class UserService {
         this.pool.on('error', (err) => console.log(err));*/
     }
 
-    async create(body) {
-
-        return data;
+    async create(data) {
+        // this data is already validated by the middleware
+        console.log(data);
+        // Create the new user with ORM:
+        const newUser = await models.User.create(data);
+        return newUser;
     }
 
+    
     async findAll() {
         // route: /users/
 
         //const client = await getConnection();// the value is immediately? no, => await
         //const queryResponse = await client.query('SELECT * FROM tasks');// the value is immediately? no, => await
-        const question = 'SELECT * FROM tasks;';
-        const [results, metadata] = await sequelize.query(question);
+        //const question = 'SELECT * FROM tasks;';// query with SQL
+        const question = await models.User.findAll();
+        //const [results, metadata] = await sequelize.query(question);
         
-        return { results };
+        return question;
     }
 
     async findOne(id) {
         // route: /users/{int}
-        const id = parseInt(id);
+        /*const id = parseInt(id);
 
         const question = 'SELECT * FROM tasks WHERE id = '+id+' LIMIT 1;';
         const [result, metadata] = await sequelize.query(question);
 
-        return { result };
+        return { result };*/
+        const user = await models.User.findByPk(id);// id is validated by validatorHandler
+        if(!user){
+            throw boom.notFound('My error in [userService/findOne]: user not found.');
+        }
+        return user;
     }
 
+    async updateOne(id, changes) {
+        // route: /users/{int}
+        //const id = parseInt(id); // this validate is apply on validatorHandler
+        
+        // Sequelize method:
+        /*const question = 'UPDATE tasks SET title='+newTitle+' WHERE id='+id+';';
+        const [result, metadata] = await sequelize.query(question);
+
+        return { result };*/
+
+        // Sequelize model
+        const user = await this.findOne(id);
+        
+        const updated = await user.update(changes);
+        return updated;
+    }
+
+
+    // delete a user by id
     async deleteOne(id) {
-        // route: /users/{int}
-        const id = parseInt(id);
+        const user = await this.findOne(id);// id validate with validatorHandler
 
-        /* Deleting data */
-        //const question = 'DELETE FROM tasks WHERE id = '+id+' LIMIT 1;';
-
-        /* Update data - Goog practice, no exist attribute is_deleted.*/
-        const question = 'UPDATE tasks SET is_deleted=true WHERE id ='+id+' LIMIT 1;';
-        const [result, metadata] = await sequelize.query(question);
-
-        return { result };
-    }
-
-    async updateOne(id, body) {
-        // route: /users/{int}
-        const id = parseInt(id);
-        const newTitle = body.title;
-
-        const question = 'UPDATE tasks SET title='+newTitle+' WHERE id='+id+';';
-        const [result, metadata] = await sequelize.query(question);
-
-        return { result };
-    }
-
-    async findTasks(){// ???????????????
-        const postgresConnection = await getConnection();
-        const queryResponse = await postgresConnection.query('SELECT * FROM tasks;');
-        return queryResponse.rows;
+        await user.destroy();
+        return { id };
     }
 }
 
