@@ -19,10 +19,23 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=The-other-secure-password
     ports:
       - 5050:80
-  
-  nodeserver:
-    image: node:latest
+
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=my-store
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=The-most-secure-password
+      - MYSQL_PORT=3306
     ports:
-      - 3000:3000
+      - 3306:3306
     volumes:
-      - ./:/app
+      - ./mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql #PMA_host -> service name of the ddbb.
+      - MYSQL_ROOT_PASSWORD=The-most-secure-password
+    ports:
+      - 3309:80

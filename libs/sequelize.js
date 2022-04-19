@@ -16,7 +16,7 @@ const URI = `${config.dbProtocol}://${USER}:${PASSWORD}@${config.dbHost}:${confi
 
 //console.log(URI);
 
-// connection (option 1): passing a connext URI for postgres
+// connection (option 1): passing a context URI for postgres
 const sequelize = new Sequelize(
     URI,
     {
@@ -28,27 +28,8 @@ const sequelize = new Sequelize(
 // setup connection with our ORM 
 setupModels(sequelize);
 
-// execute Models on Database
+// execute Models on Database, Don't use on Production.
 sequelize.sync();
 
 // export our connection:
 module.exports = sequelize;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

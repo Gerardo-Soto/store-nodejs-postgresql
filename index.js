@@ -33,10 +33,10 @@ routerApi(app);
 
 // Middleware
 app.use(logErrors);
-app.use(boomErrorHandler);
-app.use(errorHandler);
 // challenge: add validate PK unique to ORM:
 app.use(handleORMErrorPKUnique);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 
 app.listen(port, () => {

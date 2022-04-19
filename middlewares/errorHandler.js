@@ -1,3 +1,6 @@
+const { ValidationError } = require('sequelize');
+const boom = require('@hapi/boom');
+
 function logErrors (err, req, res, next) {
     console.error(err);
     next(err);
@@ -30,3 +33,18 @@ function handleORMErrorPKUnique (err, req, res, next){
 }
 
 module.exports = { logErrors, errorHandler, boomErrorHandler, handleORMErrorPKUnique}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

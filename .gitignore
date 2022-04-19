@@ -103,8 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-# postgresql
+## DATABASES
 postgres_data/
+mysql_data
 
 #ENV
 config/
