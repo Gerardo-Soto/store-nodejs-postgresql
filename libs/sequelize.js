@@ -5,7 +5,7 @@ const { config } = require('../config/config');
 const { Sequelize } = require('sequelize');
 
 // Our models function to connect with the ORM
-const setupModels = require('../database/index');
+const setupModels = require('../db/models/index');
 
 // encode sensitive data
 const USER = encodeURIComponent(config.dbUser);
@@ -29,7 +29,7 @@ const sequelize = new Sequelize(
 setupModels(sequelize);
 
 // execute Models on Database, Don't use on Production.
-sequelize.sync();
+//sequelize.sync(); // Now, We are using Migrations.
 
 // export our connection:
 module.exports = sequelize;
