@@ -5,7 +5,7 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const USER_TABLE = 'users';
 
-//schema: database structure. (No validate, Joi validate the data in /schemas/*Schemas.js)
+//schema: database structure. (No validate, Joi validate the data in /schemas/userSchemas.js)
 const UserSchema = {
     // attributes with properties:
     id: {
@@ -43,6 +43,7 @@ const UserSchema = {
     }
 }
 
+//
 class User extends Model {
     // Methods statics: we don't need declare the object to access to this methods.
     static associate(){}
