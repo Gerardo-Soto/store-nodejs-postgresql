@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
 });
 
 //Find a customer by ID
-router.get('/:id',
+/*router.get('/:id',
 validatorHandler(getCustomerSchema, 'params'),
 async (req, res, next) => {
     try {
@@ -41,7 +41,7 @@ async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-});
+});*/
 
 //Create a customer
 router.post('/', validatorHandler(createCustomerSchema, 'body'),

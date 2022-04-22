@@ -12,12 +12,16 @@ class CustomerService {
     }
 
     async create(data){
-        const newCustomer = await  models.Customer.create(data);
+        const newCustomer = await  models.Customer.create(data, {
+            include: ['user']
+        });
         return newCustomer;
     }
 
     async findAll(){
-        const allCustomers = await models.Customer.findAll();
+        const allCustomers = await models.Customer.findAll({
+            include: ['user']
+        });
         return allCustomers;
     }
 
@@ -30,13 +34,17 @@ class CustomerService {
     }
 
     async updateOne(id, changes){
-        const customer = await models.customer.findByPk(id);
+        /*const customer = await models.customer.findByPk(id);
         if(!customer){
             throw boom.notFound('Ops. This Customer do not exist. [error: /services/customerService/updateOne].');
         }
 
         const customerUpdated = await models.customer.update(changes);
         return customerUpdated;
+        */
+       const model = await this.findOne(id);
+       const rta = await model.update(changes);
+       return rta;
     }
 
     async deleteOne(id){
@@ -46,8 +54,8 @@ class CustomerService {
         }
 
         await customer.destroy();
-        return { id };
+        return { id, rta: true };
     }
 }
 
-module.exports = { customerService };
+module.exports = CustomerService;

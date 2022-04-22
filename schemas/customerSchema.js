@@ -1,23 +1,30 @@
-const {Joi} = require('joi');
+const Joi = require('joi');
 
 const id = Joi.number().integer();
-const name = Joi.string().name().max(50);
-const lastName = Joi.string().name().max(100);
+const name = Joi.string().min(3).max(50);
+const lastName = Joi.string().min(3).max(100);
 const phone = Joi.string().max(50);
-const createdAt = Joi.string().max(30);
+const userId = Joi.number().integer();
+const email = Joi.string().email();
+const password = Joi.string();
 
 // Validations for "validatorHandler" routes
 const createCustomerSchema = Joi.object({
-    name: name.required(),
+    ame: name.required(),
     lastName: lastName.required(),
+    phone: phone.required(),
+    user: Joi.object({
+        email: email.required(),
+        password: password.required()
+    })
 });
 
 
 const updateCustomerSchema = Joi.object({
-    name: name,
-    lastName: lastName,
-    phone: phone,
-    //userId: userId,
+    name,
+    lastName,
+    phone,
+    userId,
 });
 
 const getCustomerSchema = Joi.object({

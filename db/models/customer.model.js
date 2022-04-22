@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-
+//const { USER_TABLE } = require('./user.model');
 // Data to make the structure of database on Postgres.
 // This makes the ORM easier to do operations on the SQL Engine.
 
@@ -32,7 +32,20 @@ const CustomerSchema = {
         type: DataTypes.DATE,
         field: 'created_at',
         defaultValue: Sequelize.NOW,
-    }
+/*    },
+	userId: {
+		field: 'user_id',
+		allowNull: false,
+		type: DataTypes.INTEGER,
+		unique: true,
+		references: {
+			model: USER_TABLE,
+			key: 'id'
+		},
+
+		onUpdate: 'CASCADE',
+		onDelete: 'SET NULL',*/
+	}
 }
 
 // Class to create Customer Objects.
@@ -51,7 +64,6 @@ class Customer extends Model{
             timestamp: false
         }
     }
-
 }
 
-module.exports = { USER_TABLE, CustomerSchema, Customer };
+module.exports = { CUSTOMER_TABLE, CustomerSchema, Customer };
