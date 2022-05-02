@@ -48,7 +48,6 @@ router.post('/', validatorHandler(createCustomerSchema, 'body'),
 async (req, res, next) => {
     try {
         const body = req.body;
-        console.log(customerService);
         const newCustomer = await customerService.create(body);
         res.status(201).json(newCustomer);
     } catch (error) {

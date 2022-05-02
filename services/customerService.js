@@ -10,14 +10,21 @@ class CustomerService {
     constructor() {}
 
     async create(data){
-        const newCustomer = await  models.Customer.create(data, {
-            include: ['user']
-        });
+        // Create Customer whit a user
+        const newCustomer = await  models.Customer.create(
+            data, 
+            {
+                // This costumer has an associate whit User
+                // if there's a sub-object named user, this is a user, then create it:
+                include: ['user']
+            });
         return newCustomer;
     }
 
     async findAllCustomers(){
-        const allCustomers = await models.Customer.findAll();
+        const allCustomers = await models.Customer.findAll({
+            include: ['user']
+        });
         return allCustomers;
     }
 

@@ -45,12 +45,6 @@ const CustomerSchema = {
 
 		onUpdate: 'CASCADE',
 		onDelete: 'SET NULL',
-	},
-	updatedAt: {
-		field: 'updated_at',
-		allowNull: false,
-		type: DataTypes.DATE,
-		defaultValue: Sequelize.NOW
 	}
 }
 

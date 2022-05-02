@@ -1,7 +1,7 @@
 'use strict';
 
 const { CUSTOMER_TABLE, CustomerSchema } = require('./../models/customer.model');
-const newColumn = 'updated_at';
+//const newColumn = 'updated_at';
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -11,7 +11,7 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-     await queryInterface.addColumn(CUSTOMER_TABLE, newColumn, CustomerSchema.updatedAt);
+  //   await queryInterface.addColumn(CUSTOMER_TABLE, newColumn, CustomerSchema.updatedAt);
   },
 
   async down (queryInterface, Sequelize) {
@@ -21,6 +21,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.removeColumn(CUSTOMER_TABLE, newColumn);
+    //await queryInterface.removeColumn(CUSTOMER_TABLE, newColumn);
   }
 };

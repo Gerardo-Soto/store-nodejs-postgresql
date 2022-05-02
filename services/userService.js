@@ -36,7 +36,9 @@ class UserService {
         //const client = await getConnection();// the value is immediately? no, => await
         //const queryResponse = await client.query('SELECT * FROM tasks');// the value is immediately? no, => await
         //const question = 'SELECT * FROM tasks;';// query with SQL
-        const question = await models.User.findAll();
+        const question = await models.User.findAll({
+            include: ['customer']
+        });
         //const [results, metadata] = await sequelize.query(question);
         
         return question;
