@@ -36,6 +36,20 @@ const ProductSchema = {
         defaultValue: Sequelize.NOW,
         field: 'created_at',
         type: DataTypes.DATE,   
+    },
+    categoryId: {
+        field: 'category_id',
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: CATEGORY_TABLE,
+            key: 'id',
+        },
+        /*references: CATEGORY_TABLE,
+        refereceKey: 'id',*/
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     }
 }
 

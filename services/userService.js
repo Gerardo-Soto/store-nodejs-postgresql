@@ -5,7 +5,7 @@ const boom = require('@hapi/boom');
 // New connection to Database with Pool
 //const pool = require('../libs/postgresPool');
 
-// our new connection using the library Sequelize that use Pool
+// our connection using the library Sequelize that use Pool
 //const sequelize = require('../libs/sequelize');
 
 // our new connection using ORM

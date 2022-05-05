@@ -6,7 +6,7 @@ const CATEGORY_TABLE = 'categories';
 const CategorySchema = {
     id: {
         allowNull: false,
-        allowIncrement: true,
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
     },

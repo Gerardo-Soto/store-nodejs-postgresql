@@ -33,6 +33,12 @@ const CustomerSchema = {
         field: 'created_at',
         defaultValue: Sequelize.NOW,
     },
+    updatedAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        field: 'updated_at',
+        defaultValue: Sequelize.NOW,
+    },
 	userId: {
 		field: 'user_id',
 		allowNull: false,
