@@ -1,26 +1,33 @@
 const boom = require('@hapi/boom');
 
+// our new connection using ORM
+// sequelize.setupModels.init makes a namespace where saved all models, called:
+// database/order.models.js > config > modelName: 'Order' == models.Order
+const { models } = require('../libs/sequelize');
+
 class OrderService {
 
   constructor(){
   }
   async create(data) {
-    return data;
+    const newOrder = await models.Order.create(data);
+    return newOrder;
   }
 
   async find() {
-    return [];
+    const findAllOrder = await models.Order.findAll();//include
+    return findAllOrder
   }
 
   async findOne(id) {
-    return { id };
+    const findOrder = await models.Order.findByPk(id);
+    return findOrder;
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    const order = await this.findOne(id);
+    const orderUpdated = await order.update(changes);
+    return orderUpdated;
   }
 
   async delete(id) {
