@@ -5,7 +5,7 @@ const boom = require('@hapi/boom');
 // New connection to Database with Pool
 //const pool = require('../libs/postgresPool');
 
-// our new connection using the library Sequelize that use Pool
+// our connection using the library Sequelize that use Pool
 //const sequelize = require('../libs/sequelize');
 
 // our new connection using ORM
@@ -36,7 +36,9 @@ class UserService {
         //const client = await getConnection();// the value is immediately? no, => await
         //const queryResponse = await client.query('SELECT * FROM tasks');// the value is immediately? no, => await
         //const question = 'SELECT * FROM tasks;';// query with SQL
-        const question = await models.User.findAll();
+        const question = await models.User.findAll({
+            include: ['customer']
+        });
         //const [results, metadata] = await sequelize.query(question);
         
         return question;

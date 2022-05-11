@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-//const { USER_TABLE } = require('./user.model');
+const { USER_TABLE } = require('./user.model');
 // Data to make the structure of database on Postgres.
 // This makes the ORM easier to do operations on the SQL Engine.
 
@@ -32,7 +32,13 @@ const CustomerSchema = {
         type: DataTypes.DATE,
         field: 'created_at',
         defaultValue: Sequelize.NOW,
-/*    },
+    },
+    updatedAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        field: 'updated_at',
+        defaultValue: Sequelize.NOW,
+    },
 	userId: {
 		field: 'user_id',
 		allowNull: false,
@@ -44,16 +50,22 @@ const CustomerSchema = {
 		},
 
 		onUpdate: 'CASCADE',
-		onDelete: 'SET NULL',*/
+		onDelete: 'SET NULL',
 	}
 }
 
-// Class to create Customer Objects.
+// Class to create Customer Objects with their config and associations.
 class Customer extends Model{
     // Methods statics: we don't need declare the object to access to this methods. customer customer 
     static associate(models){
         // Associations with the tables
+        // 1 Costumer has 1 user:
         this.belongsTo(models.User, {as: 'user'});
+        // 1 Costumer has Many orders:
+        this.hasMany(models.Order, {
+            as: 'orders',
+            foreignKey: 'customerId'
+        })
     }
 
     static config(sequelize){

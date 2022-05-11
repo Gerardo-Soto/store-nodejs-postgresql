@@ -7,16 +7,18 @@ const phone = Joi.string().max(50);
 const userId = Joi.number().integer();
 const email = Joi.string().email();
 const password = Joi.string();
+//const updatedAt = Joi.string();
 
 // Validations for "validatorHandler" routes
 const createCustomerSchema = Joi.object({
-    ame: name.required(),
+    name: name.required(),
     lastName: lastName.required(),
     phone: phone.required(),
     user: Joi.object({
         email: email.required(),
         password: password.required()
     })
+    //userId: userId.required()
 });
 
 

@@ -46,7 +46,12 @@ const UserSchema = {
 //
 class User extends Model {
     // Methods statics: we don't need declare the object to access to this methods.
-    static associate(){}
+    static associate(models){
+        this.hasOne(models.Customer, {
+            as: 'customer',
+            foreignKey: 'userId'
+        });
+    }
 
     static config(sequelize){
         return {

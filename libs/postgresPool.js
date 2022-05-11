@@ -1,3 +1,7 @@
+/*
+THIS FILE DOESN'T USE YET!   <gerardo.8.soto@gmail.com>
+*/
+
 //This is the simplest possible way to connect with pgAdmin Pool:
 
 const { Pool } = require('pg');

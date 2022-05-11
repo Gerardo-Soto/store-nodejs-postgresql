@@ -20,15 +20,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// test query to postgres: Find all tasks
-router.get('/tasks', async (req, res, next) => {
-    try {
-        const task = await service.findTasks();
-        res.json(task);
-    } catch (error) {
-        next(error);
-    }
-});
 
 // Find a user by ID
 router.get('/:id',

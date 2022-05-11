@@ -7,18 +7,21 @@ const { models } = require('../libs/sequelize');
 
 
 class CustomerService {
-    constructor(){
-        // old connection, the new pool is into Sequelize library
-    }
+    constructor() {}
 
     async create(data){
-        const newCustomer = await  models.Customer.create(data, {
-            include: ['user']
-        });
+        // Create Customer whit a user
+        const newCustomer = await  models.Customer.create(
+            data, 
+            {
+                // This costumer has an associate whit User
+                // if there's a sub-object named user, this is a user, then create it:
+                include: ['user']
+            });
         return newCustomer;
     }
 
-    async findAll(){
+    async findAllCustomers(){
         const allCustomers = await models.Customer.findAll({
             include: ['user']
         });
@@ -26,7 +29,7 @@ class CustomerService {
     }
 
     async findOne(id){
-        const customer = await models.customer.findByPk(id);
+        const customer = await models.Customer.findByPk(id);
         if(!customer){
             throw boom.notFound('Ops. This Customer do not exist. [error: /services/customerService/findOne].');
         }
