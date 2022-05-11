@@ -25,7 +25,7 @@ function handleORMErrorPKUnique (err, req, res, next){
   if (err instanceof ValidationError) {
     res.status(409).json({
       statusCode: 409,
-      message: 'el usuario con ese correo ya existe',
+      message: 'error (our middleware/errorHandler): handleORMErrorPKUnique.',
       errors: err.errors
     });
   }

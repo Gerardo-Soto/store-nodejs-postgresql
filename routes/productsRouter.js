@@ -116,25 +116,3 @@ router.delete('/:id',
 
 // Export router
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
