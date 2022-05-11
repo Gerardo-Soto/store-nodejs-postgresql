@@ -54,12 +54,18 @@ const CustomerSchema = {
 	}
 }
 
-// Class to create Customer Objects.
+// Class to create Customer Objects with their config and associations.
 class Customer extends Model{
     // Methods statics: we don't need declare the object to access to this methods. customer customer 
     static associate(models){
         // Associations with the tables
+        // 1 Costumer has 1 user:
         this.belongsTo(models.User, {as: 'user'});
+        // 1 Costumer has Many orders:
+        this.hasMany(models.Order, {
+            as: 'orders',
+            foreignKey: 'customerId'
+        })
     }
 
     static config(sequelize){
