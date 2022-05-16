@@ -14,6 +14,7 @@ const {
   getProductSchema,
   updateProductSchema,
   deleteProductSchema,
+  queryProductSchema,
 } = require('../schemas/productSchema');
 
 // initialization class ProductService
@@ -21,10 +22,16 @@ const productService = new ProductService();
 
 
 // route of all products
-router.get('/', async (req, res) => {
-  const products = await productService.find();
-  console.log('hello');
-  res.status(200).json(products);
+router.get('/',
+validatorHandler(queryProductSchema, 'query'),
+async (req, res, next) => {
+  try {
+    const products = await productService.find(req.query);
+    res.status(200).json(products);
+    
+  } catch (error) {
+    next(error);  
+  }
 });
 
 

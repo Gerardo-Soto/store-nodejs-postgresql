@@ -20,12 +20,22 @@ class ProductsService {
     return newProduct;
   }
 
-  async find() {
-    /*const query = 'SELECT * FROM tasks;';
-    //const queryResponse = this.pool.query(query);
-    const queryResponse = sequelize.query(query);*/
+  async find(query) {
+    // association to ORM 
+    const options = {
+      include: ['category'],
+    }
+
+    // Pagination: 
+    const { limit, offset} = query;
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = offset;
+    }
+
     const products = await models.Product.findAll({
-      include: ['category']
+      //include: ['category'],
+      options
     });
     return products;
   }
