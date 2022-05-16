@@ -3,7 +3,7 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 // This makes the ORM easier to do operations on the SQL Engine.
 
 // associate tables
-const { ORDER_TABLE } = require('./order.models');
+const { ORDER_TABLE } = require('./order.model');
 const { PRODUCT_TABLE } = require('./product.model');
 
 const ORDER_PRODUCT_TABLE = 'orders_products';

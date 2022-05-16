@@ -48,6 +48,14 @@ class Order extends Model {
         // Associations with the tables
         // 1 order has 1 customer:
         this.belongsTo(models.Customer, {as: 'customer'});
+
+        // M orders has M products:
+        this.belongsToMany(models.Products, {
+            as: 'items',
+            through: models.OrderProduct,
+            foreignKey: 'orderId',
+            otherKey: 'productId'
+        });
     }
 
 
