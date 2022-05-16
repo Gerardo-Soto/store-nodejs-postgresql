@@ -1,6 +1,6 @@
 //Packages:
 const express = require('express');
-const router = express.Router()// = /products at g-flix/index.js
+const router = express.Router()// = /products
 
 // Services:
 const ProductService = require('../services/productService');

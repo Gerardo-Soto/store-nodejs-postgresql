@@ -1,5 +1,6 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
+const { Op } = require('sequelize');
 
 // our old connection to DB by pool
 //const pool = require('../libs/postgresPool');
@@ -24,6 +25,8 @@ class ProductsService {
     // association to ORM 
     const options = {
       include: ['category'],
+      // sql where by default:
+      where: {},
     }
 
     // Pagination: 
@@ -33,10 +36,22 @@ class ProductsService {
       options.offset = offset;
     }
 
-    const products = await models.Product.findAll({
-      //include: ['category'],
-      options
-    });
+    // Condition
+    const { priceLimit } = query;
+    if (priceLimit) {
+      options.where.priceLimit = priceLimit;
+    }
+
+    // limits
+    const { priceMin, priceMax } = query;
+    if (priceMin && priceMax) {
+      options.where.price = {
+        [Op.gte]: priceMin,
+        [Op.lte]: priceMax,
+      };
+    }
+
+    const products = await models.Product.findAll(options);
     return products;
   }
 

@@ -6,6 +6,9 @@ const id = Joi.number().integer();
 const image = Joi.string().uri();
 const name = Joi.string().min(3).max(25);
 const price = Joi.number().integer().min(10);
+const priceLimit = Joi.number.integer();
+const priceMin = Joi.number.integer();
+const priceMax = Joi.number.integer();
 
 // pagination
 const limit = Joi.number().integer();
@@ -34,7 +37,19 @@ const getProductSchema = Joi.object({
 
 const queryProductSchema = Joi.object({
   limit,
-  offset
+  offset,
+  priceLimit,
+  priceMin,
+  priceMax: priceMax.when('priceMin', {
+    is: Joi.number().integer(),
+    // if: error priceMax is required, then:
+    // is: Joi.number().integer().required(),
+    then: Joi.require()
+  })
 });
 
-module.exports = { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema };
+module.exports = { 
+  createProductSchema, 
+  updateProductSchema, 
+  getProductSchema, 
+  queryProductSchema };
