@@ -31,10 +31,11 @@ const CategorySchema = {
 class Category extends Model {
     // associates
     static associate(models){
+        // A Category has many Products
         this.hasMany(models.Product, {
             //alias associate:
             as: 'products',
-            foreignKey: 'categoryId'// model's attribute name
+            foreignKey: 'categoryId'// model's attribute name on product's table
         });
     }
 
@@ -49,4 +50,4 @@ class Category extends Model {
     }
 }
 
-module.exports = {CategorySchema, Category, CATEGORY_TABLE};
+module.exports = { CATEGORY_TABLE, CategorySchema, Category };

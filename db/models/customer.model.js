@@ -3,7 +3,7 @@ const { USER_TABLE } = require('./user.model');
 // Data to make the structure of database on Postgres.
 // This makes the ORM easier to do operations on the SQL Engine.
 
-const CUSTOMER_TABLE = 'customer';
+const CUSTOMER_TABLE = 'customers';
 
 //schema: database structure. (No validate, Joi validate the data in /schemas/customerSchemas.js)
 const CustomerSchema = {

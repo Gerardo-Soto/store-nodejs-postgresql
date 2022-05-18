@@ -10,8 +10,8 @@ const { OrderProduct, OrderProductSchema} = require('./order-product.model');
 
 function setupModels(sequelize) {
     // load configuration of all Schemas
-    Customer.init(CustomerSchema, Customer.config(sequelize));
     User.init(UserSchema, User.config(sequelize));
+    Customer.init(CustomerSchema, Customer.config(sequelize));
     
     Category.init(CategorySchema, Category.config(sequelize));
     Product.init(ProductSchema, Product.config(sequelize));

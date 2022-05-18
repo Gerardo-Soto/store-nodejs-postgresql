@@ -5,7 +5,7 @@ const { Model, DataTypes, Sequelize} = require('sequelize');
 
 const ORDER_TABLE = 'orders';
 
-const CUSTOMER_TABLE = require('./customer.model');
+const { CUSTOMER_TABLE } = require('./customer.model');
 
 const OrderSchema = {
     // attributes with properties
@@ -32,12 +32,20 @@ const OrderSchema = {
 		references: {
 			model: CUSTOMER_TABLE,
 			key: 'id',
-            
-            onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
-		},
-        /*references: CUSTOMER_TABLE,
-        referenceKey: 'id',*/
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',  
+    },
+    total: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            if (this.items.length > 0) {
+                return this.items.reduce((total, item) => {
+                    return total + (item.price * item.OrderProduct.amount);
+                }, 0);
+            }
+            return 0;
+        }
     }
 }
 

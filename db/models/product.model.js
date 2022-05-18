@@ -1,7 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 // table of associations
-const CATEGORY_TABLE = require('./category.model');
+const { CATEGORY_TABLE } = require('./category.model');
 
 // table name for Database
 const PRODUCT_TABLE = 'products';
@@ -56,6 +56,7 @@ const ProductSchema = {
 class Product extends Model {
     // associates
     static associate(models){
+        // A Product has A Category
         this.belongsTo(models.Category, {
             as: 'category'
         });
