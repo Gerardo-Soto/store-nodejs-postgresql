@@ -33,6 +33,7 @@ function setupModels(sequelize) {
 
     // creation of association  Order M-1 Customer
     Order.associate(sequelize.models);// soft entity
+    
 }
 
 module.exports = setupModels;

@@ -28,25 +28,25 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       createdAt: {
-          allowNull: false,
-          type: DataTypes.DATE,
-          // in JS, the variables is named using camelCase, but in DDBB is used snake_case:
-          field: 'created_at',
-          defaultValue: Sequelize.NOW,
+        allowNull: false,
+        type: DataTypes.DATE,
+        // in JS, the variables is named using camelCase, but in DDBB is used snake_case:
+        field: 'created_at',
+        defaultValue: Sequelize.NOW,
       },
       //foreignKey:
       customerId: {
-          // in JS, the variables is named using camelCase, but in DDBB is used snake_case:
-          field: 'customer_id',
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      unique: false,
-      references: {
-        model: CUSTOMER_TABLE,
-        key: 'id',
-          },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',  
+        // in JS, the variables is named using camelCase, but in DDBB is used snake_case:
+        field: 'customer_id',
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+          model: CUSTOMER_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',  
       },
     });
     /* My error was create first products without a category table */

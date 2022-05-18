@@ -5,7 +5,7 @@ const name = Joi.string().min(3).max(25);
 const image = Joi.string().uri();
 
 const createCategorySchema = Joi.object({
-  id: id.required(),
+  //id: id.required(),
   name: name.required(),
   image: image.required()
 });
