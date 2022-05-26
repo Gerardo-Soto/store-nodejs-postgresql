@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
+const { cookie } = require('express/lib/response');
 
+const bcrypt = require('bcrypt');
 // our new connection using ORM
 // sequelize.setupModels.init makes a namespace where saved all models, called:
 // database/user.models.js > config > modelName: 'User' == models.User
@@ -10,7 +12,10 @@ class CustomerService {
     constructor() {}
 
     async create(data){
-        // Create Customer whit a user
+        // encrypt sensitive data
+        data.user.password = await bcrypt.hash(data.user.password, 6);
+        
+        // Create Customer with a user
         const newCustomer = await  models.Customer.create(
             data, 
             {

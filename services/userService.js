@@ -1,5 +1,5 @@
 const boom = require('@hapi/boom');
-
+const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 
 // Old connection to Database
@@ -25,7 +25,11 @@ class UserService {
 
     async create(data) {
         // this data is already validated by the middleware
-        console.log(data);
+//        console.log(data);
+
+        // encrypt sensitive data
+        data.password = await bcrypt.hash(data.password, 6);// hash salt 5 to 10
+
         // Create the new user with ORM:
         const newUser = await models.User.create(data);
         return newUser;
@@ -107,6 +111,12 @@ class UserService {
     // delete a user by email
     async deleteByEmail(email) {
 
+    }
+
+
+    // authentication user
+    async auth(email, password) {
+         
     }
 }
 

@@ -3,7 +3,15 @@ const express = require('express');
 
 const UserService = require('./../services/userService');
 const validatorHandler = require('./../middlewares/validatorHandler');
-const { updateUserSchema, createUserSchema, getUserSchema, getUserByEmailSchema } = require('./../schemas/userSchema');
+const { 
+  updateUserSchema, 
+  createUserSchema, 
+  getUserSchema, 
+  getUserByEmailSchema,
+  loginUserSchema, 
+} = require('./../schemas/userSchema');
+
+const auth = require('./../authentication/index');
 
 const router = express.Router();
 // router: /users
@@ -59,8 +67,8 @@ router.post('/',
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newCategory = await service.create(body);
-      res.status(201).json(newCategory);
+      const newUser = await service.create(body);
+      res.status(201).json(newUser);
     } catch (error) {
       next(error);
     }
@@ -97,7 +105,29 @@ router.delete('/:id',
   }
 );
 
+// login a user
+router.post('/login',
+  validatorHandler(loginUserSchema, 'body'),
+  async(req, res, next) => {
+    try {
+      const { email, password } = req.body;
 
+      const user = await service.findByEmail(email);
+      console.log(user.email, user.password);
+      
+      if (user.password !== password) {
+        throw new Error('Incorrect credentials.');
+      } 
+      // generate token
+//      const token = await service.auth(email, password);
+      const token = auth.sign(user.email);
+
+      res.json(token);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 
 module.exports = router;

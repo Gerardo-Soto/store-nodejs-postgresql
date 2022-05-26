@@ -26,4 +26,15 @@ const getUserByEmailSchema = Joi.object({
   email: email.required(),
 });
 
-module.exports = { createUserSchema, updateUserSchema, getUserSchema, getUserByEmailSchema }
+const loginUserSchema = Joi.object({
+  email: email.required(),
+  password: password.required(),
+});
+
+module.exports = { 
+  createUserSchema, 
+  updateUserSchema, 
+  getUserSchema, 
+  getUserByEmailSchema,
+  loginUserSchema,
+}
