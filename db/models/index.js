@@ -4,19 +4,21 @@ const { Category, CategorySchema } = require('./category.model');// hard entity
 const { Customer, CustomerSchema } = require('./customer.model');// hard entity
 const { Product, ProductSchema } = require('./product.model');// soft entity
 const { User, UserSchema } = require('./user.model');// hard entity
-
-const { Order, OrderSchema } = require('./order.models');// soft entity
+const { Order, OrderSchema } = require('./order.model');// soft entity
+const { OrderProduct, OrderProductSchema} = require('./order-product.model');
 
 
 function setupModels(sequelize) {
     // load configuration of all Schemas
-    Customer.init(CustomerSchema, Customer.config(sequelize));
     User.init(UserSchema, User.config(sequelize));
+    Customer.init(CustomerSchema, Customer.config(sequelize));
     
     Category.init(CategorySchema, Category.config(sequelize));
     Product.init(ProductSchema, Product.config(sequelize));
 
     Order.init(OrderSchema, Order.config(sequelize));
+
+    OrderProduct.init(OrderProductSchema, OrderProduct.config(sequelize));
 
 
     //Make the associations
@@ -31,6 +33,7 @@ function setupModels(sequelize) {
 
     // creation of association  Order M-1 Customer
     Order.associate(sequelize.models);// soft entity
+    
 }
 
 module.exports = setupModels;

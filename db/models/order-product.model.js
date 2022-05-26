@@ -1,12 +1,15 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { USER_TABLE } = require('./user.model');
 // Data to make the structure of database on Postgres.
 // This makes the ORM easier to do operations on the SQL Engine.
 
-const CUSTOMER_TABLE = 'customers';
+// associate tables
+const { ORDER_TABLE } = require('./order.model');
+const { PRODUCT_TABLE } = require('./product.model');
+
+const ORDER_PRODUCT_TABLE = 'orders_products';
 
 //schema: database structure. (No validate, Joi validate the data in /schemas/customerSchemas.js)
-const CustomerSchema = {
+const OrderProductSchema = {
     // attributes with properties:
     id: {
         allowNull: false,
@@ -14,18 +17,9 @@ const CustomerSchema = {
         primaryKey: true,
         type: DataTypes.INTEGER,
     },
-    name: {
+    amount: {
         allowNull: false,
-        type: DataTypes.STRING,
-    },
-    lastName: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        field: 'last_name',
-    },
-    phone: {
-        allowNull: true,
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
     },
     createdAt: {
         allowNull: false,
@@ -33,19 +27,24 @@ const CustomerSchema = {
         field: 'created_at',
         defaultValue: Sequelize.NOW,
     },
-    updatedAt: {
-        allowNull: true,
-        type: DataTypes.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.NOW,
-    },
-	userId: {
-		field: 'user_id',
+	orderId: {
+		field: 'order_id',
 		allowNull: false,
 		type: DataTypes.INTEGER,
-		unique: true,
 		references: {
-			model: USER_TABLE,
+			model: ORDER_TABLE,
+			key: 'id'
+		},
+
+		onUpdate: 'CASCADE',
+		onDelete: 'SET NULL',
+	},
+	productId: {
+		field: 'product_id',
+		allowNull: false,
+		type: DataTypes.INTEGER,
+		references: {
+			model: PRODUCT_TABLE,
 			key: 'id'
 		},
 
@@ -54,28 +53,22 @@ const CustomerSchema = {
 	}
 }
 
-// Class to create Customer Objects with their config and associations.
-class Customer extends Model{
+// Class to create OrderProduct Objects with their config and associations.
+class OrderProduct extends Model{
     // Methods statics: we don't need declare the object to access to this methods. customer customer 
     static associate(models){
         // Associations with the tables
-        // 1 Costumer has 1 user:
-        this.belongsTo(models.User, {as: 'user'});
-        // 1 Costumer has Many orders:
-        this.hasMany(models.Order, {
-            as: 'orders',
-            foreignKey: 'customerId'
-        })
+        
     }
 
     static config(sequelize){
         return {
             sequelize,
-            tableName: CUSTOMER_TABLE,
-            modelName: 'Customer',
+            tableName: ORDER_PRODUCT_TABLE,
+            modelName: 'OrderProduct',
             timestamp: false
         }
     }
 }
 
-module.exports = { CUSTOMER_TABLE, CustomerSchema, Customer };
+module.exports = { ORDER_PRODUCT_TABLE, OrderProductSchema, OrderProduct };

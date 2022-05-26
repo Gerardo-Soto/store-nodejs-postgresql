@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
 
+const { Op } = require('sequelize');
+
 // Old connection to Database
 //const getConnection = require('../libs/postgres');
 // New connection to Database with Pool
@@ -59,6 +61,23 @@ class UserService {
         return user;
     }
 
+    async findByEmail(email) {
+        const options = {
+            include: ['customer'],
+            where: {}
+        };
+        //console.log(query);
+        //const { email } = query;
+        console.log(email);
+        if (email){
+            options.where.email = {
+                [Op.eq]: email
+            };
+        }
+        const user = await models.User.findOne(options);
+        return user;
+    }
+
     async updateOne(id, changes) {
         // route: /users/{int}
         //const id = parseInt(id); // this validate is apply on validatorHandler
@@ -83,6 +102,11 @@ class UserService {
 
         await user.destroy();
         return { id };
+    }
+
+    // delete a user by email
+    async deleteByEmail(email) {
+
     }
 }
 

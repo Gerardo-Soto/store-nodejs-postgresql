@@ -35,12 +35,12 @@ const UserSchema = {
         field: 'created_at',
         defaultValue: Sequelize.NOW,
     },
-    isActivated: {
+    /*isActivated: {
         allowNull: false,
         type: DataTypes.BOOLEAN,
         defaultValue: true,
         field: 'is_activated',
-    }
+    }*/
 }
 
 //
