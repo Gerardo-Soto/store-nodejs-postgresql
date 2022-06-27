@@ -11,7 +11,10 @@ const {
     createCustomerSchema,
     updateCustomerSchema,
     getCustomerSchema,} = require('../schemas/customerSchema');
+
 const validatorHandler = require('../middlewares/validatorHandler');
+const checkAuth = require('./../middlewares/authentication');
+
 const { CustomerSchema } = require('../db/models/customer.model');
 
 // router: /customer
@@ -57,6 +60,7 @@ async (req, res, next) => {
 
 //update a customer
 router.patch('/:id',
+checkAuth('update'),
 validatorHandler(getCustomerSchema, 'params'),
 validatorHandler(updateCustomerSchema, 'body'),
 async (req, res, next) => {

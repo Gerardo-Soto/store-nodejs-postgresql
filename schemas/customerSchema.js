@@ -23,6 +23,7 @@ const createCustomerSchema = Joi.object({
 
 
 const updateCustomerSchema = Joi.object({
+    email: email.required(),
     name,
     lastName,
     phone,
