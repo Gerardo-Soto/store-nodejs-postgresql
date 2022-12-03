@@ -45,6 +45,7 @@ router.get('/:id',
   }
 );
 
+// Find a user by e-mail
 router.get('/e/:email',
   validatorHandler(getUserByEmailSchema, 'params'),
   async (req, res, next) => {
@@ -91,6 +92,48 @@ router.patch('/:id',
   }
 );
 
+// Update a user by ID with token
+router.patch('/me/:id',
+  validatorHandler(getUserSchema, 'params'),// /me/params:id
+  validatorHandler(updateUserSchema, 'body'),// {	"role": "zzzzzzz24h-t2" }
+  async (req, res, next) => {
+    const token = req.headers['x-access-token'];
+    // check if the token is in the headers
+    if (!token) {
+      return res.status(401).json({
+        auth: false,
+        message: '(Error: userRouter 004) No token provided.',
+      });
+    }
+
+    // Decode token to validate
+    const decodedToken = await service.verifyToken(token);
+    console.log('Decoded token? ::: '+ decodedToken);
+
+    if (decodedToken != true ) {
+      //console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+      res.json({'token': '[userRouter /me/:id] ups this token in not valid.'});
+      next();
+    }
+
+    // if token is validated, update the user:
+    if (decodedToken) {
+      try {
+        const { id } = req.params;
+        const body = req.body;
+        const userUpdated = await service.updateOne(id, body);
+        res.json(userUpdated);
+      } catch (error) {
+        next(error);
+      }
+    } else {
+      // the token is not validate.
+      //console.log('----token no validate');
+      res.json({'token': false});
+    }
+  }
+);
+
 // Delete a user by ID
 router.delete('/:id',
   validatorHandler(getUserSchema, 'params'),
@@ -112,17 +155,14 @@ router.post('/login',
     try {
       const { email, password } = req.body;
 
-      const user = await service.findByEmail(email);
-      console.log(user.email, user.password);
+      const user = await service.findByEmail(email); 
       
-      if (user.password !== password) {
-        throw new Error('Incorrect credentials.');
-      } 
       // generate token
-//      const token = await service.auth(email, password);
-      const token = auth.sign(user.email);
+      console.log('Creating token.......................');
+      const token = await service.login(email, password);
+      console.log('Created token: '+ token);
 
-      res.json(token);
+      res.json({auth: true, token});
     } catch (error) {
       next(error);
     }

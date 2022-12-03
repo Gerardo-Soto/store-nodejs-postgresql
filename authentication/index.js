@@ -8,6 +8,8 @@ const { config } = require('../config/config');
  * @return {string} jwt
  */
 function sign(data) {
+    // create the token with (payload):
+    // user.id
     return jwt.sign(data, config.secret,
     //{
         // https://www.npmjs.com/package/jsonwebtoken#token-expiration-exp-claim
@@ -16,7 +18,7 @@ function sign(data) {
     );
 }
 
-// Object with functions
+// Object with function own
 const check = {
     // create the token with the email
     /**
@@ -94,6 +96,6 @@ function decodeHeader(req){
 }
 
 module.exports = {
-    sign,
-    check,
+    sign,// function
+    check,// object
 };
