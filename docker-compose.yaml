@@ -38,4 +38,4 @@ services:
       - PMA_HOST=mysql #PMA_host -> service name of the ddbb.
       - MYSQL_ROOT_PASSWORD=The-most-secure-password
     ports:
-      - 3309:81
+      - 3309:80
