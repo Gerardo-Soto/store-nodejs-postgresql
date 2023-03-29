@@ -5,5 +5,5 @@ Practice to use Node, express and postgresql tools.
 # 1.- start DDBB
  > docker-compose up -d
 
-# 1.- start node server to development
+# 2.- start node server to development
  > npm run dev
